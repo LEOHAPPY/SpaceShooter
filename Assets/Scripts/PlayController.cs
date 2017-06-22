@@ -12,7 +12,14 @@ public class Boundary
 public class PlayController : MonoBehaviour {
     public float speed;
     public Boundary boundary;
-	public float tilt;
+	public float tilt; //qing xie 
+
+    public Transform shotSpawn;
+    public GameObject shot;
+    public float fireRate;
+
+    //as private 
+    private float nextFire;
 
     void FixedUpdate()
     {
@@ -36,7 +43,20 @@ public class PlayController : MonoBehaviour {
 		//rotation
 		GetComponent<Rigidbody>().rotation =
 			Quaternion.Euler( new Vector3 (0.0f,0.0f,GetComponent<Rigidbody>().velocity.x*-tilt));
+    }
 
-    
+
+    void Update()
+    {
+        //initilization of the shot with the position of player
+        //getbutton input from user
+        //time gap control 
+        //Input.GetButtonDown("Fire1") || Input.GetKeyDown("space")) && 
+        if ((Input.GetButtonDown("Fire1") || Input.GetKeyDown("space")) &&nextFire < Time.time )
+        {
+            nextFire = fireRate + Time.time;
+            Instantiate(shot, shotSpawn.position, shotSpawn.rotation); 
+            //associate latter on in Unity by drag to the column
+        }
     }
 }
